@@ -45,12 +45,14 @@ How to adapt AutoForge for any project type:
 - **Example 2**: ESPHome embedded project for ESP32 (YAML-based, compile-only verification)
 - General adaptation strategy for any technology stack
 
-### [05 - ADR: Spec Evolution](05-adr-spec-evolution.md)
+## Architecture Decision Records
 
-**Status: Proposed** — Architecture Decision Record for linking features to their origin specs:
+### [ADR-005: Spec Evolution](adr/ADR-005-spec-evolution.md)
+
+**Status: Proposed** — Linking features to their origin specs:
 - Problem: `app_spec.txt` is written once and becomes stale as projects evolve through multiple expansion rounds
-- Proposal: Evolution Specs (`.autoforge/specs/`) as numbered markdown documents with `spec_id` linking to features
-- Database changes: nullable `spec_id` column on the Feature table
-- Modified Expand Project and Assistant flows to write specs before creating features
-- Coding agent reads the relevant spec per feature instead of a stale monolithic app spec
-- Five implementation phases from database foundation through prompt integration
+- Proposal: Specs table in SQLite (source of truth) with auto-exported markdown projections
+- Database changes: `specs` table + `spec_id` foreign key on Feature table
+- Spec Workspace UI for authoring, reviewing, and tracking specs
+- Git worktrees for parallel spec iterations
+- Eight implementation phases from database foundation through worktree support
